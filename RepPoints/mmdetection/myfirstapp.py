@@ -150,7 +150,7 @@ if model_selected == 'RepPoints':
     config_file = 'configs/test_single_image.py'
     checkpoint_file = 'checkpoints/reppoints_moment_x101_dcn_fpn_2x_mt.pth'
     results_file = 'results.pkl'
-    img = 'data/single_image_test/single_image_test/000000397133.jpg'
+    img = 'data/coco/sample_image_1/000000397133.jpg'
 
     st.write("Running inference...")
     classes = test(config_file, checkpoint_file, results_file)

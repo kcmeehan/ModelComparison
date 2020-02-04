@@ -73,7 +73,7 @@ test_cfg = dict(
     max_per_img=100)
 # dataset settings
 dataset_type = 'MyDataset'
-data_root = 'data/single_image_test/'
+data_root = 'data/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 data = dict(
@@ -104,8 +104,8 @@ data = dict(
         with_label=True),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/single_image.json',
-        img_prefix=data_root + 'single_image_test/',
+        ann_file=data_root + 'annotations/sample_image_1.json',
+        img_prefix=data_root + 'sample_image_1/',
         img_scale=[(1333, 400), (1333, 600), (1333, 800), (1666, 1000), (2000, 1200), (2333, 1400)],
         img_norm_cfg=img_norm_cfg,
         size_divisor=32,
