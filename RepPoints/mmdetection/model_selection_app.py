@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import matplotlib.pyplot as plt
+from PIL import Image
 
 from mmdet.apis import init_dist, init_detector, inference_detector, show_result
 import mmcv
@@ -134,23 +135,46 @@ def show_result_pyplot(img,
 #--------------------STREAMLIT------------------------------------
 st.title("Object Detection Model Comparison")
 
+# Choose an input image
+input_method = st.radio(
+        "Choose an input image:",
+        ('Pre-loaded Image', 'Upload my own image')
+    )
+
+if input_method == 'Pre-loaded Image':
+    image_selected = st.selectbox(
+	'Choose input image for inference:',
+	('kitchen', 'other')
+    )
+    if image_selected == 'kitchen':
+        img = 'data/coco/sample_image_1/000000397133.jpg'
+        config_file = 'configs/test_single_image.py'
+        image = Image.open(img)
+        st.image(image)
+
+elif input_method == 'Upload my own image':
+    pass
+
+else:
+    st.write("Error with input image selection.")
+
+
+
 # Adds a selectbox to the sidebar
-model_selected = st.sidebar.selectbox(
+#model_selected = st.sidebar.selectbox(
+model_selected = st.selectbox(
     'Choose model for inference:',
     ('yolov3', 'RepPoints')
 )
 
 if model_selected == 'yolov3' :
     st.write("Model selected: " + model_selected)
-    pass
 
 if model_selected == 'RepPoints':
   
     st.write("Model selected: " + model_selected)
-    config_file = 'configs/test_single_image.py'
     checkpoint_file = 'checkpoints/reppoints_moment_x101_dcn_fpn_2x_mt.pth'
     results_file = 'results.pkl'
-    img = 'data/coco/sample_image_1/000000397133.jpg'
 
     st.write("Running inference...")
     classes = test(config_file, checkpoint_file, results_file)
@@ -161,10 +185,4 @@ if model_selected == 'RepPoints':
     #st.write(data)
     show_result_pyplot(img, data[0], classes)
 
-#st.write("Here's our first attempt at using data to create a table:")
-#st.write(pd.DataFrame({
-#        'first column': [1, 2, 3, 4], 
-#            'second column': [10, 20, 30, 50] 
-#
-#}))
 
