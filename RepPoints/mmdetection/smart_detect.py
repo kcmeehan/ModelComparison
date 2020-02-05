@@ -2,6 +2,9 @@ import streamlit as st
 import pickle
 import matplotlib.pyplot as plt
 from PIL import Image
+import sys
+sys.path.append('/home/kmeehan/Repos/SmartDetect/PyTorch-YOLOv3/')
+from yolov3_detect import yolov3_detect
 
 from mmdet.apis import init_dist, init_detector, inference_detector, show_result
 import mmcv
@@ -169,6 +172,14 @@ model_selected = st.selectbox(
 
 if model_selected == 'yolov3' :
     st.write("Model selected: " + model_selected)
+    img_path = os.path.dirname(img) 
+    weights_path = "../PyTorch-YOLOv3/weights/yolov3.weights"
+    model_def = "../PyTorch-YOLOv3/config/yolov3.cfg"
+    class_path = "../PyTorch-YOLOv3/data/coco.names"
+
+    st.write("Running inference...")
+    yolov3_detect(img_path, weights_path, model_def, class_path)
+    st.write("Finished")
 
 if model_selected == 'RepPoints':
   
