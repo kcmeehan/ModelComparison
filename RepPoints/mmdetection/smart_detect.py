@@ -21,7 +21,7 @@ from mmdet.datasets import build_dataloader, build_dataset
 from mmdet.models import build_detector
 
 cdir = os.getcwd()
-yolo_module_path = os.path.join(cdir, '../../PyTorch-YOLOv3/')
+yolo_module_path = os.path.join(cdir, '../PyTorch-YOLOv3/')
 sys.path.append(yolo_module_path)
 from yolov3_detect import yolov3_detect
 
@@ -120,7 +120,7 @@ def test(config_file, checkpoint_file, results_file):
 def show_result_pyplot(img,
                        result,
                        class_names,
-                       score_thr=0.3,
+                       score_thr=0.5,
                        fig_size=(15, 10)):
     """Visualize the detection results on the image.
     Args:

@@ -104,7 +104,7 @@ def _inference_generator(model, imgs, img_transform, device):
 def show_result(img,
                 result,
                 class_names,
-                score_thr=0.3,
+                score_thr=0.8,
                 wait_time=0,
                 show=True,
                 out_file=None):
@@ -163,7 +163,7 @@ def show_result(img,
 def show_result_pyplot(img,
                        result,
                        class_names,
-                       score_thr=0.3,
+                       score_thr=0.8,
                        fig_size=(15, 10)):
     """Visualize the detection results on the image.
 

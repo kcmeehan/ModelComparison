@@ -24,7 +24,7 @@ from matplotlib.ticker import NullLocator
 
 def yolov3_detect(image_folder, weights_path, model_def, class_path):
 
-    conf_thres = 0.8
+    conf_thres = 0.5
     nms_thres = 0.4
     batch_size = 1
     n_cpu = 0
