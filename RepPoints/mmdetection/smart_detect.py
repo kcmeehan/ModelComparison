@@ -3,8 +3,6 @@ import pickle
 import matplotlib.pyplot as plt
 from PIL import Image
 import sys
-sys.path.append('/home/kmeehan/Repos/SmartDetect/PyTorch-YOLOv3/')
-from yolov3_detect import yolov3_detect
 
 from mmdet.apis import init_dist, init_detector, inference_detector, show_result
 import mmcv
@@ -21,6 +19,11 @@ from mmcv.runner import get_dist_info, load_checkpoint
 from mmdet.core import coco_eval, results2json, wrap_fp16_model
 from mmdet.datasets import build_dataloader, build_dataset
 from mmdet.models import build_detector
+
+cdir = os.getcwd()
+yolo_module_path = os.path.join(cdir, '../../PyTorch-YOLOv3/')
+sys.path.append(yolo_module_path)
+from yolov3_detect import yolov3_detect
 
 def single_gpu_test(model, data_loader, show=False):
     model.eval()
@@ -135,7 +138,7 @@ def show_result_pyplot(img,
     plt.figure(figsize=fig_size)
     st.image(mmcv.bgr2rgb(img))
 
-#--------------------STREAMLIT------------------------------------
+#--------------------STREAMLIT APP------------------------------------
 st.title("Object Detection Model Comparison")
 
 # Choose an input image
@@ -147,28 +150,38 @@ input_method = st.radio(
 if input_method == 'Pre-loaded Image':
     image_selected = st.selectbox(
 	'Choose input image for inference:',
-	('kitchen', 'other')
+	('select image', 'kitchen', 'hot dog')
     )
+
+    if image_selected == 'select image':
+        img = None
+        pass
+
     if image_selected == 'kitchen':
         img = 'data/coco/sample_image_1/000000397133.jpg'
         config_file = 'configs/test_single_image.py'
         image = Image.open(img)
         st.image(image)
 
+    if image_selected == 'hot dog':
+        img = 'data/coco/sample_image_2/000000548555.jpg'
+        config_file = 'configs/sample2_config.py'
+        image = Image.open(img)
+        st.image(image)
+
 elif input_method == 'Upload my own image':
     pass
-
-else:
-    st.write("Error with input image selection.")
-
 
 
 # Adds a selectbox to the sidebar
 #model_selected = st.sidebar.selectbox(
 model_selected = st.selectbox(
     'Choose model for inference:',
-    ('yolov3', 'RepPoints')
+    ('select model', 'yolov3', 'RepPoints')
 )
+
+if model_selected == 'select model':
+    pass
 
 if model_selected == 'yolov3' :
     st.write("Model selected: " + model_selected)

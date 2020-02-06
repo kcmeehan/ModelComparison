@@ -144,3 +144,5 @@ def yolov3_detect(image_folder, weights_path, model_def, class_path):
         filename = path.split("/")[-1].split(".")[0]
         plt.savefig(f"output/{filename}.png", bbox_inches="tight", pad_inches=0.0)
         plt.close()
+        inferred_image = Image.open(f"output/{filename}.png")
+        st.image(inferred_image)

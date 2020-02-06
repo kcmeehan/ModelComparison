@@ -3,6 +3,7 @@ from .cityscapes import CityscapesDataset
 from .coco import CocoDataset
 from .custom import CustomDataset
 from .my_dataset import MyDataset
+from .sample2 import Sample2
 from .dataset_wrappers import ConcatDataset, RepeatDataset
 from .extra_aug import ExtraAugmentation
 from .loader import DistributedGroupSampler, GroupSampler, build_dataloader
