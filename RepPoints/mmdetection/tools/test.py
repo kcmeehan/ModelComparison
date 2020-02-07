@@ -3,6 +3,8 @@ import os
 import os.path as osp
 import shutil
 import tempfile
+import datetime
+import time
 
 import mmcv
 import torch
@@ -21,9 +23,13 @@ def single_gpu_test(model, data_loader, show=False):
     results = []
     dataset = data_loader.dataset
     prog_bar = mmcv.ProgressBar(len(dataset))
+    prev_time = time.time()
     for i, data in enumerate(data_loader):
         with torch.no_grad():
             result = model(return_loss=False, rescale=not show, **data)
+        current_time = time.time()
+        inference_time = datetime.timedelta(seconds=current_time - prev_time)
+        prev_time = current_time
         results.append(result)
 
         if show:
@@ -32,7 +38,7 @@ def single_gpu_test(model, data_loader, show=False):
         batch_size = data['img'][0].size(0)
         for _ in range(batch_size):
             prog_bar.update()
-    return results
+    return results, inference_time
 
 
 def multi_gpu_test(model, data_loader, tmpdir=None):

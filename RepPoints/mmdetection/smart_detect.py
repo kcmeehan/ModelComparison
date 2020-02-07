@@ -22,27 +22,12 @@ from mmdet.models import build_detector
 
 cdir = os.getcwd()
 yolo_module_path = os.path.join(cdir, '../PyTorch-YOLOv3/')
+reppoints_module_path = os.path.join(cdir, './mmdetection/')
 sys.path.append(yolo_module_path)
+sys.path.append(reppoints_module_path)
 from yolov3_detect import yolov3_detect
+from tools.test import single_gpu_test
 
-def single_gpu_test(model, data_loader, show=False):
-    model.eval()
-    results = []
-    dataset = data_loader.dataset
-    prog_bar = mmcv.ProgressBar(len(dataset))
-    for i, data in enumerate(data_loader):
-        with torch.no_grad():
-            result = model(return_loss=False, rescale=not show, **data)
-        results.append(result)
-
-        if show:
-            model.module.show_result(data, result, dataset.img_norm_cfg)
-
-        batch_size = data['img'][0].size(0)
-        for _ in range(batch_size):
-            prog_bar.update()
-       
-    return results
 
 def test(config_file, checkpoint_file, results_file):
 
@@ -86,7 +71,7 @@ def test(config_file, checkpoint_file, results_file):
 
     if not distributed:
         model = MMDataParallel(model, device_ids=[0])
-        outputs = single_gpu_test(model, data_loader, False)
+        outputs, inference_time = single_gpu_test(model, data_loader, False)
     else:
         print("ERROR: This part needs to be fixed")
         pass
@@ -115,7 +100,7 @@ def test(config_file, checkpoint_file, results_file):
                         result_files = results2json(dataset, outputs_,
                                                     result_file)
                         coco_eval(result_files, eval_types, dataset.coco)
-    return dataset.CLASSES
+    return dataset.CLASSES, inference_time
 
 def show_result_pyplot(img,
                        result,
@@ -150,7 +135,7 @@ input_method = st.radio(
 if input_method == 'Pre-loaded Image':
     image_selected = st.selectbox(
 	'Choose input image for inference:',
-	('select image', 'kitchen', 'hot dog')
+	('select image', 'kitchen', 'hot dog', 'sports')
     )
 
     if image_selected == 'select image':
@@ -166,6 +151,12 @@ if input_method == 'Pre-loaded Image':
     if image_selected == 'hot dog':
         img = 'data/coco/sample_image_2/000000548555.jpg'
         config_file = 'configs/sample2_config.py'
+        image = Image.open(img)
+        st.image(image)
+
+    if image_selected == 'sports':
+        img = 'data/coco/sample_image_3/000000232692.jpg'
+        config_file = 'configs/sample3_config.py'
         image = Image.open(img)
         st.image(image)
 
@@ -191,8 +182,8 @@ if model_selected == 'yolov3' :
     class_path = "../PyTorch-YOLOv3/data/coco.names"
 
     st.write("Running inference...")
-    yolov3_detect(img_path, weights_path, model_def, class_path)
-    st.write("Finished")
+    inference_time = yolov3_detect(img_path, weights_path, model_def, class_path)
+    st.write("Finished. Inference time: " + str(inference_time))
 
 if model_selected == 'RepPoints':
   
@@ -201,12 +192,13 @@ if model_selected == 'RepPoints':
     results_file = 'results.pkl'
 
     st.write("Running inference...")
-    classes = test(config_file, checkpoint_file, results_file)
+    classes, inference_time = test(config_file, checkpoint_file, results_file)
 
     st.write("Displaying result...")
     pkl_file = open(results_file, "rb")
     data = pickle.load(pkl_file)
     #st.write(data)
     show_result_pyplot(img, data[0], classes)
+    st.write("Finished. Inference time: " + str(inference_time))
 
 

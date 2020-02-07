@@ -146,3 +146,5 @@ def yolov3_detect(image_folder, weights_path, model_def, class_path):
         plt.close()
         inferred_image = Image.open(f"output/{filename}.png")
         st.image(inferred_image)
+
+        return inference_time
