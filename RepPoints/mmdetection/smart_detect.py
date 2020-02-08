@@ -3,6 +3,7 @@ import pickle
 import matplotlib.pyplot as plt
 from PIL import Image
 import sys
+import requests
 
 from mmdet.apis import init_dist, init_detector, inference_detector, show_result
 import mmcv
@@ -123,15 +124,18 @@ def show_result_pyplot(img,
     plt.figure(figsize=fig_size)
     st.image(mmcv.bgr2rgb(img))
 
+#---------------------------------------------------------------------
 #--------------------STREAMLIT APP------------------------------------
+#---------------------------------------------------------------------
 st.title("Object Detection Model Comparison")
 
-# Choose an input image
+# Choose input method
 input_method = st.radio(
         "Choose an input image:",
         ('Pre-loaded Image', 'Upload my own image')
     )
 
+## Choose pre-loaded sample image
 if input_method == 'Pre-loaded Image':
     image_selected = st.selectbox(
 	'Choose input image for inference:',
@@ -160,9 +164,27 @@ if input_method == 'Pre-loaded Image':
         image = Image.open(img)
         st.image(image)
 
+## Choose to upload image from url
 elif input_method == 'Upload my own image':
-    pass
+    default_url = "https://c402277.ssl.cf1.rackcdn.com/photos/18128/images/hero_small/Medium_WW247497.jpg"
+    url = st.text_input("Input image url", default_url)
 
+    if url == "":
+        url = default_url
+        st.write("Warning! No url passed. Using default: ")
+        st.write(url)
+    img_data = requests.get(url).content
+
+    if not os.path.exists("uploaded_images"):
+        os.mkdir("uploaded_images")
+
+    with open('uploaded_images/custom_image.jpg', 'wb') as handler:
+        handler.write(img_data)
+
+    img = 'uploaded_images/custom_image.jpg'
+    image = Image.open(img)
+    st.image(image)
+    config_file = 'configs/urltest.py'
 
 # Adds a selectbox to the sidebar
 #model_selected = st.sidebar.selectbox(
@@ -183,7 +205,7 @@ if model_selected == 'yolov3' :
 
     st.write("Running inference...")
     inference_time = yolov3_detect(img_path, weights_path, model_def, class_path)
-    st.write("Finished. Inference time: " + str(inference_time))
+    st.write("Finished. Inference time: " + str(inference_time.total_seconds()) + " seconds")
 
 if model_selected == 'RepPoints':
   
@@ -199,6 +221,6 @@ if model_selected == 'RepPoints':
     data = pickle.load(pkl_file)
     #st.write(data)
     show_result_pyplot(img, data[0], classes)
-    st.write("Finished. Inference time: " + str(inference_time))
+    st.write("Finished. Inference time: " + str(inference_time.total_seconds()) + " seconds")
 
 
