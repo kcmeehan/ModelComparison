@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import sys
 import requests
+import numpy as np
 
 from mmdet.apis import init_dist, init_detector, inference_detector, show_result
 import mmcv
@@ -31,7 +32,7 @@ from tools.test import single_gpu_test
 
 
 def test(config_file, checkpoint_file, results_file):
-
+    
     cfg = mmcv.Config.fromfile(config_file)
     # set cudnn_benchmark
     if cfg.get('cudnn_benchmark', False):
@@ -205,7 +206,7 @@ if model_selected == 'yolov3' :
 
     st.write("Running inference...")
     inference_time = yolov3_detect(img_path, weights_path, model_def, class_path)
-    st.write("Finished. Inference time: " + str(inference_time.total_seconds()) + " seconds")
+    st.write("Inference time: " + str(inference_time.total_seconds()) + " seconds")
 
 if model_selected == 'RepPoints':
   
@@ -219,8 +220,24 @@ if model_selected == 'RepPoints':
     st.write("Displaying result...")
     pkl_file = open(results_file, "rb")
     data = pickle.load(pkl_file)
-    #st.write(data)
+
+    det = data[0]
+    bboxes = np.vstack(det)
+    labels = [ 
+        np.full(bbox.shape[0], i, dtype=np.int32)
+        for i, bbox in enumerate(det)
+    ]   
+    labels = np.concatenate(labels)
+    scores = bboxes[:, -1]
+    inds = scores > 0.5
+    bboxes = bboxes[inds, :]
+    labels = labels[inds]
+    
+    for bbox, label in zip(bboxes, labels):
+        label_text = classes[label]
+        st.text("Label: %s, Confidence: %.2f %%" % (label_text, bbox[-1]*100.))
+        
     show_result_pyplot(img, data[0], classes)
-    st.write("Finished. Inference time: " + str(inference_time.total_seconds()) + " seconds")
+    st.write("Inference time: " + str(inference_time.total_seconds()) + " seconds")
 
 
