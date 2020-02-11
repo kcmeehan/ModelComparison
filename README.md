@@ -6,6 +6,10 @@ A user-friendly tool for performing object detection and comparing model perform
 
 Clone the repository to your working space.
 
+### A. Setup the Yolov3 code
+
+### B. Setup the RepPoints code
+
 TODO:
 -write rest of installation instructions and test on independent system
 
