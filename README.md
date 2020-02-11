@@ -12,9 +12,7 @@ TODO:
 
 ## 2. Usage
 
-To run the streamlit app:
-
-Go into the RepPoints directory, and run the streamlit command
+To run the streamlit app, go into the RepPoints directory, and run the streamlit command:
 
 ```bash
 cd Reppoints
@@ -22,6 +20,6 @@ streamlit run mmdetection/smart_detect.py --server.port 5000
 ```
 
 Then pull up the ip address at port 5000 in a web browser. The address should be something like: 
-http://<your_ip_address>:5000
+*http://<your_ip_address>:5000*
 
 
