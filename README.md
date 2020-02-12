@@ -1,4 +1,7 @@
 # SmartDetect
+TODO:
+-write rest of installation instructions and test on independent system
+-add links/credits to respective repos
 
 A user-friendly tool for performing object detection and comparing model performance on an image data set.
 
@@ -8,11 +11,24 @@ Clone the repository to your working space.
 
 ### A. Setup the Yolov3 code
 
+**Install requirements**
+```bash
+cd PyTorch-YOLOv3/
+pip3 install -r requirements.txt
+```
+
+**Download pre-trained weights**
+```bash
+cd weights
+bash download_weights.sh
+```
+
 ### B. Setup the RepPoints code
 
-TODO:
--write rest of installation instructions and test on independent system
-
+```bash
+cd RepPoints
+bash download_weights.sh
+```
 
 ## 2. Usage
 
