@@ -1,9 +1,10 @@
 # SmartDetect
 TODO:
 -write rest of installation instructions and test on independent system
--add links/credits to respective repos
 
-A user-friendly tool for performing object detection and comparing model performance on an image data set.
+A user-friendly tool for performing object detection and comparing model performance on an image data set. This repo uses yolov3 and reppoints models, implemented in pytorch.
+The yolov3 implementation uses code from https://github.com/eriklindernoren/PyTorch-YOLOv3, a minimal PyTorch implementation of YOLOv3, a model developed by Joseph Redmon and Ali Farhadi (https://pjreddie.com/darknet/yolo/). The RepPoints model uses code from  https://github.com/microsoft/RepPoints developed by Ze Yang, Shaohui Liu, Han Hu, Liwei Wang, and Stephen Lin from Microsoft (https://arxiv.org/abs/1904.11490).
+ 
 
 ## 1. Installation
 
@@ -27,7 +28,7 @@ bash download_weights.sh
 
 ```bash
 cd RepPoints
-bash download_weights.sh
+sh ./init.sh
 ```
 
 ## 2. Usage
