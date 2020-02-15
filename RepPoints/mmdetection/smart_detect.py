@@ -128,7 +128,8 @@ def show_result_pyplot(img,
 #---------------------------------------------------------------------
 #--------------------STREAMLIT APP------------------------------------
 #---------------------------------------------------------------------
-st.title("Object Detection Model Comparison")
+st.title("SmartDetect ") #\nObject Detection Model Comparison Tool")
+st.header("An Object Detection Model Comparison Tool")
 
 # Choose input method
 input_method = st.radio(
@@ -206,7 +207,7 @@ if model_selected == 'yolov3' :
 
     st.write("Running inference...")
     inference_time = yolov3_detect(img_path, weights_path, model_def, class_path)
-    st.write("Inference time: " + str(inference_time.total_seconds()) + " seconds")
+    st.write("Inference time: " + str(inference_time.total_seconds()) + " seconds on an NVIDIA Tesla K80 gpu")
 
 if model_selected == 'RepPoints':
   
@@ -238,6 +239,6 @@ if model_selected == 'RepPoints':
         st.text("Label: %s, Confidence: %.2f %%" % (label_text, bbox[-1]*100.))
         
     show_result_pyplot(img, data[0], classes)
-    st.write("Inference time: " + str(inference_time.total_seconds()) + " seconds")
+    st.write("Inference time: " + str(inference_time.total_seconds()) + " seconds on an NVIDIA Tesla K80 gpu")
 
 
