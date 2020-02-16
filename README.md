@@ -9,7 +9,7 @@ The YOLOv3 implementation uses code from https://github.com/eriklindernoren/PyTo
 
 ## 1. Installation
 
-Prerequisites: 
+### A. Prerequisites: 
 - At least one gpu
 - Setup anaconda environment with python 3:
 ```bash
@@ -19,12 +19,12 @@ conda activate smartdetectenv
 - [Install PyTorch 1.0+](https://pytorch.org/get-started/locally/)
 - CUDA 9.0+
 
+### B. Setup:
+
 Clone the repository to your working space:
 ```bash
 git clone https://github.com/kcmeehan/SmartDetect.git
 ```
-
-### A. Setup the Yolov3 code
 
 **Install requirements**
 ```bash
@@ -56,5 +56,3 @@ streamlit run mmdetection/smart_detect.py --server.port 5000
 
 Then pull up the ip address at port 5000 in a web browser. The address should be something like: 
 **http://<your_ip_address>:5000**
-
-
