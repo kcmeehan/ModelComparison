@@ -1,4 +1,4 @@
-numpy
+numpy>=1.16
 torch>=1.0
 torchvision
 matplotlib
@@ -7,3 +7,5 @@ tensorboard
 terminaltables
 pillow
 tqdm
+streamlit
+cython

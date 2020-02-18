@@ -4,7 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Data
-data/
+data/coco/test2017
+data/coco/train2017
+data/coco/val2017
+data/coco/annotations/
 checkpoints/
 
 # User-specific files
