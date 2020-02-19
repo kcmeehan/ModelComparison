@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # download data
-bash ./download_coco2017.sh
+bash download_coco2017.sh
+
+# download pre-trained reppoints model
+bash download_model.sh
 
 # copy files
 cp -r src/reppoints_head/* mmdetection/mmdet/models/anchor_heads/
