@@ -26,23 +26,9 @@ Clone the repository to your working space:
 git clone https://github.com/kcmeehan/SmartDetect.git
 ```
 
-**Install requirements**
+**Install requirements and download data**
 ```bash
-cd PyTorch-YOLOv3/
-pip3 install -r requirements.txt
-```
-
-**Download pre-trained weights**
-```bash
-cd weights
-bash download_weights.sh
-```
-
-### B. Setup the RepPoints code
-
-```bash
-cd RepPoints
-sh ./init.sh
+bash install_smartdetect.sh
 ```
 
 ## 2. Usage
