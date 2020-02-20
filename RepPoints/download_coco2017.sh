@@ -1,6 +1,3 @@
-mkdir -p data
-mkdir -p data/coco
-
 cd data/coco
 
 wget http://images.cocodataset.org/zips/train2017.zip
